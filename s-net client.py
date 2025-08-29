@@ -8,7 +8,8 @@ if len(sys.argv) != 3:
     print ("Correct usage: script, IP address, port number")
     exit()
 
-Scythe = ssl.wrap_socket(server, ssl_version=ssl.PROTOCOL_TLS, ciphers="ADH-AES256-SHA")
+Scythe = ssl.SSLContext(protocol=ssl.PROTOCOL_TLS_CLIENT).wrap_socket(server)
+
 
 IP_address = str(sys.argv[1]) 
 Port = int(sys.argv[2]) 

@@ -1,5 +1,4 @@
 import socket
-import select
 import sys
 import ssl
 from _thread import *
@@ -13,7 +12,7 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 #Creates a wrapper for "server" that initializes TLS/SSL
-Scythe = ssl.SSLContext(server, ssl_version=ssl.PROTOCOL_TLS, ciphers="ADH-AES256-SHA")
+Scythe = ssl.SSLContext(protocol=ssl.PROTOCOL_TLS_SERVER).wrap_socket(server)
 
 # checks whether sufficient arguments have been provided 
 if len(sys.argv) != 3: 
