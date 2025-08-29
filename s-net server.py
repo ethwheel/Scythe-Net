@@ -1,7 +1,7 @@
 import socket
 import select
 import sys
-import _ssl
+import ssl
 from _thread import *
 
 """The first argument AF_INET is the address domain of the 
@@ -11,6 +11,9 @@ SOCK_STREAM means that data or characters are read in
 a continuous flow."""
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+#Creates a wrapper for "server" that initializes TLS/SSL
+Scythe = ssl.SSLContext(server, ssl_version=ssl.PROTOCOL_TLS, ciphers="ADH-AES256-SHA")
 
 # checks whether sufficient arguments have been provided 
 if len(sys.argv) != 3: 
@@ -28,13 +31,13 @@ binds the server to an entered IP address and at the
 specified port number. 
 The client must be aware of these parameters 
 """
-server.bind((IP_address, Port)) 
+Scythe.bind((IP_address, Port)) 
 
 """ 
 listens for 11 active connections. This number can be 
 increased as per convenience. 
 """
-server.listen(11) 
+Scythe.listen(11) 
 
 list_of_clients = []
 
@@ -92,7 +95,7 @@ while True:
     conn which is a socket object for that user, and addr 
     which contains the IP address of the client that just 
     connected"""
-    conn, addr = server.accept() 
+    conn, addr = Scythe.accept() 
 
     """Maintains a list of clients for ease of broadcasting 
     a message to all available people in the chatroom"""
