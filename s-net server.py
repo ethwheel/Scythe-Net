@@ -12,7 +12,9 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 #Creates a wrapper for "server" that initializes TLS/SSL
-Scythe = ssl.SSLContext(protocol=ssl.PROTOCOL_TLS_SERVER).wrap_socket(server)
+SSLconfig = ssl.SSLContext(protocol=ssl.PROTOCOL_TLS_SERVER)
+SSLconfig.check_hostname = False
+Scythe = SSLconfig.wrap_socket(server)
 
 # checks whether sufficient arguments have been provided 
 if len(sys.argv) != 3: 
