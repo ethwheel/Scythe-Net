@@ -8,7 +8,7 @@ if len(sys.argv) != 3:
     print ("Correct usage: script, IP address, port number")
     exit()
 
-SSLconfig = ssl.SSLContext(protocol=ssl.PROTOCOL_TLS_SERVER)
+SSLconfig = ssl.SSLContext(protocol=ssl.PROTOCOL_TLS_CLIENT)
 SSLconfig.check_hostname = False
 Scythe = SSLconfig.wrap_socket(server)
 
