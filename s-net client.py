@@ -9,7 +9,7 @@ if len(sys.argv) != 3:
     exit()
 
 Scythe = ssl.SSLContext(protocol=ssl.PROTOCOL_TLS_CLIENT).wrap_socket(server)
-
+ssl.context.check_hostname = True
 
 IP_address = str(sys.argv[1]) 
 Port = int(sys.argv[2]) 
