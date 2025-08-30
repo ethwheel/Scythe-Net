@@ -1,1 +1,3 @@
 .vscode/settings.json
+private_key.pem
+public_certificate.pem
