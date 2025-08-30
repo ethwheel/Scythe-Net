@@ -2,6 +2,7 @@ import socket
 import sys
 import ssl
 from _thread import *
+from pathlib import Path
 
 """The first argument AF_INET is the address domain of the 
 socket. This is used when we have an Internet Domain with 
@@ -12,8 +13,10 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 #Creates a wrapper for "server" that initializes TLS/SSL
+certLoc = "C:\\Users\\Ethan\\Documents\\Scythe\\Scythe-Net\\public_certificate.pem"
+certKey = "C:\\Users\\Ethan\\Documents\\Scythe\\Scythe-Net\\private_key.pem"
 SSLconfig = ssl.SSLContext(protocol=ssl.PROTOCOL_TLS_SERVER)
-SSLconfig.check_hostname = False
+SSLconfig.load_cert_chain(certLoc, certKey)
 Scythe = SSLconfig.wrap_socket(server)
 
 # checks whether sufficient arguments have been provided 
@@ -108,4 +111,3 @@ while True:
     # creates and individual thread for every user 
     # that connects 
     start_new_thread(clientthread,(conn,addr))
-    

@@ -9,7 +9,7 @@ if len(sys.argv) != 3:
     exit()
 
 SSLconfig = ssl.SSLContext(protocol=ssl.PROTOCOL_TLS_CLIENT)
-SSLconfig.check_hostname = False
+SSLconfig.load_verify_locations("public_certificate.pem")
 Scythe = SSLconfig.wrap_socket(server)
 
 IP_address = str(sys.argv[1]) 
@@ -19,7 +19,7 @@ Scythe.connect((IP_address, Port))
 while True: 
 
     # maintains a list of possible input streams 
-    sockets_list = [sys.stdin, server] 
+    sockets_list = [sys.stdin, Scythe] 
 
     """ There are two possible input situations. Either the 
     user wants to give manual input to send to other people, 
@@ -32,7 +32,7 @@ while True:
     read_sockets,write_socket, error_socket = select.select(sockets_list,[],[]) 
 
     for socks in read_sockets: 
-        if socks == server: 
+        if socks == Scythe: 
             message = socks.recv(2048) 
             print (message) 
         else: 
